@@ -1,0 +1,7 @@
+CaffeineJS is a simple javascript library designed for adding powerful
+model and form support to closure-library. It's not used by any major
+web applications, and is likely to be very buggy. It would probably
+cause a flury of complaints if used in its current condition.
+
+For more information about CaffeineJS, visit:
+http://github.com/joetyson/caffeinejs
