@@ -258,7 +258,7 @@ caffeine.Model.prototype.sync_ = function(action) {
     'X-CSRFToken': goog.net.cookies.get('csrftoken') || '',
     'X-HTTP-Method-Override': action.httpOverride || action.httpVerb
   });
-  this.xhr_.send(this.getUri().toString(), action.httpVerb, this.serialize(), 
+  this.xhr_.send(this.getUrl().toString(), action.httpVerb, this.serialize(), 
                  headers);
 };
 
