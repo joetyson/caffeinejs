@@ -17,3 +17,57 @@
  */ 
 
 goog.provide('caffeine.Model.Set');
+
+goog.require('goog.structs.Set');
+
+/**
+ * @constructor
+ * @extends {goog.structs.Set}
+ */
+caffeine.Model.Set = function(model) {
+  goog.base(this);
+  this.model_ = model;
+};
+goog.inherits(caffeine.Model.Set, goog.structs.Set);
+
+/**
+ * Add a model object to this set
+ * @param {caffeine.Model} modelObj Model object to add to set
+ */
+caffeine.Model.Set.prototype.add = function(modelObj) {
+  if (!(modelObj instanceof this.model_)) {
+    throw Error('Model object provided is not the valid type of model');
+  }
+  goog.base(this, 'add');
+};
+
+/**
+ * Create a new model object and append to set
+ * @param {Object} values Values to populate model with
+ * @returns {caffeine.Model}
+ */
+caffeine.Model.set.prototype.create = function(values) {
+  var obj = new this.model_(values);
+  this.add(obj);
+  return obj;
+};
+
+
+/// STILL TO IMPLEMENT
+
+/**
+ * Filter and return subset of Models that match specified filter
+ * @param {Function} fn Filter function
+ * @return {Array.<caffeine.Model>}
+ */
+caffeine.Model.set.prototype.filter = function(fn) {
+  // noop
+};
+
+/**
+ * Return an Array of sorted Model objects
+ * @param {Function} compareFn 
+ */
+caffeine.Model.set.prototype.sort = function(compareFn) {
+  // noop
+};
