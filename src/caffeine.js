@@ -16,6 +16,10 @@
  * @fileoverview Bootstrap for the CaffeineJS Library
  */
 
+/**
+ * Caffeine namespace.
+ * @const
+ */
 var caffeine = caffeine || {};
 
 
@@ -24,3 +28,9 @@ var caffeine = caffeine || {};
  * response from the server before processing. 
  */
 caffeine.XSSI_PREFIX = 'while(1);/**';
+
+/**
+ * @define {string} CSRF cookie to use when setting a csrf token.
+ */ 
+caffeine.CSRF_COOKIE = 'csrftoken';
+
