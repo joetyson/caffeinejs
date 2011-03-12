@@ -27,6 +27,7 @@ goog.require('goog.structs.Set');
 caffeine.Model.Set = function(model) {
   goog.base(this);
   this.model_ = model;
+  this.xhr_ = new goog.net.XhrIo;
 };
 goog.inherits(caffeine.Model.Set, goog.structs.Set);
 
@@ -46,28 +47,28 @@ caffeine.Model.Set.prototype.add = function(modelObj) {
  * @param {Object} values Values to populate model with
  * @returns {caffeine.Model}
  */
-caffeine.Model.set.prototype.create = function(values) {
+caffeine.Model.Set.prototype.create = function(values) {
   var obj = new this.model_(values);
   this.add(obj);
   return obj;
 };
 
-
-/// STILL TO IMPLEMENT
-
-/**
- * Filter and return subset of Models that match specified filter
- * @param {Function} fn Filter function
- * @return {Array.<caffeine.Model>}
- */
-caffeine.Model.set.prototype.filter = function(fn) {
-  // noop
+caffeine.Model.Set.prototype.all = function() {
+  
 };
 
 /**
- * Return an Array of sorted Model objects
- * @param {Function} compareFn 
+ * Take specified action on resource
+ * @param {caffeine.Model.ResourceAction} action The resource action
+ * @param {caffeine.Model.Action} action Action to perform 
+ * @param {Function} callback Callback to call
  */
-caffeine.Model.set.prototype.sort = function(compareFn) {
-  // noop
+caffeine.Model.prototype.sync_ = function(action) {
+  var headers = goog.structs.Map({
+    'Content-Type': 'application/json',
+    'X-CSRFToken': goog.net.cookies.get('csrftoken') || '',
+    'X-HTTP-Method-Override': action.httpOverride || action.httpVerb
+  });
+  this.xhr_.send(this.getUrl().toString(), action.httpVerb, this.serialize(), 
+                 headers);
 };
