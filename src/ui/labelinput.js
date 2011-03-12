@@ -45,11 +45,13 @@ goog.inherits(caffeine.ui.LabelInput, goog.ui.Component);
  */
 caffeine.ui.LabelInput.prototype.eh_;
 
+/** @inheritdoc */
 caffeine.ui.LabelInput.prototype.createDom = function() {
   this.setElementInternal(
     this.getDomHelper().createDom('input', {'type': 'text'}));
 };
 
+/** @inheritdoc */
 caffeine.ui.LabelInput.prototype.decorateInternal = function(element) {
   caffeine.ui.LabelInput.superClass_.decorateInternal.call(this, element);
   if (!this.label_) {
@@ -57,17 +59,29 @@ caffeine.ui.LabelInput.prototype.decorateInternal = function(element) {
   }
 };
 
+/** @inheritdoc */
 caffeine.ui.LabelInput.prototype.enterDocument = function() {
   caffeine.ui.LabelInput.superClass_.enterDocument.call(this);
   this.attachEvents_();
   this.check_();
 };
 
+/** @inheritdoc */
 caffeine.ui.LabelInput.prototype.exitDocument = function() {
   caffeine.ui.LabelInput.superClass_.exitDocument.call(this);
   this.detatchEvents_();
 };
 
+/** @inheritdoc */
+caffeine.ui.LabelInput.prototype.disposeInternal = function() {
+  caffeine.ui.LabelInput.superClass_.disposeInternal.call(this);
+  this.detatchEvents_();
+};
+
+/**
+ * Attach events to element
+ * @private
+ */
 caffeine.ui.LabelInput.prototype.attachEvents_ = function() {
   var eh = new goog.events.EventHandler(this);
   eh.listen(this.getElement(), goog.events.EventType.FOCUS, this.handleFocus_);
@@ -76,6 +90,10 @@ caffeine.ui.LabelInput.prototype.attachEvents_ = function() {
   this.eh_ = eh;
 };
 
+/**
+ * Detatch events from element
+ * @private
+ */
 caffeine.ui.LabelInput.prototype.detatchEvents_ = function() {
   if (this.eventHandler_) {
     this.eh_.dispose();
@@ -83,15 +101,11 @@ caffeine.ui.LabelInput.prototype.detatchEvents_ = function() {
   }
 };
 
-caffeine.ui.LabelInput.prototype.disposeInternal = function() {
-  caffeine.ui.LabelInput.superClass_.disposeInternal.call(this);
-  this.detatchEvents_();
-};
-
 /**
  * The CSS Class name to add to input when textfield is in blur
  */
-caffeine.ui.LabelInput.prototype.BLUR_CLASS_NAME = goog.getCssName('label-input-blur');
+caffeine.ui.LabelInput.prototype.BLUR_CLASS_NAME = 
+  goog.getCssName('label-input-blur');
 
 /**
  * The CSS Class name to add to input when textfield is in focus
