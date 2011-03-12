@@ -118,22 +118,17 @@ caffeine.Model.prototype.validateField_ = function(name, value) {
   }
   var field = this.fields_.get(name);
   var validate = function(validator, i, arr) {
-    // We take both objects and functions
-    if (goog.isObject(validator) && validator['validate']) {
-      var validateFunc = validator.validate;
-    } else if(goog.isFunction(validator)) {
-      var validateFunc = validator;
-    } else {
+    if(!goog.isFunction(validator)){
       throw Error(caffeine.Model.Error.INVALID_VALIDATOR);
     }
-    // Run validation function
-    var validationResult = validateFunc.call(this, value);
+    var validationResult = validator.call(this, value);
     if (!validationResult) {
       this.errors_.push(validationResult);
     }
     return validationResult;
   };
   goog.array.forEach(field.validators, validate, this);
+  // if this.errors_.length > 0 then raise FieldValidationError
   return !Boolean(this.errors_.length);
 };
 
@@ -171,6 +166,9 @@ caffeine.Model.prototype.addField = function(name, opt_options) {
   this.fields_.set(name, options);
 };
 
+/**
+ * @param {Array} values Li
+ */
 caffeine.Model.prototype.setAll = function(values) {
   var loadData = function(val, key, obj) {
     this.set(key, val);
