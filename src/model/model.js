@@ -13,29 +13,29 @@
 // limitations under the License.
 
 /**
- * @fileoverview Simple model support that provides basic RESTful syncing
- */ 
- 
+ * @fileoverview Simple model support that provides basic RESTful syncing.
+ */
+
 
 goog.provide('caffeine.Model');
 goog.provide('caffeine.Model.Error');
 goog.provide('caffeine.Model.EventType');
 
-goog.require('goog.structs.Map');
-goog.require('goog.object');
-goog.require('goog.array');
-goog.require('goog.json');
-goog.require('goog.events.EventTarget');
-goog.require('goog.net.XhrIo');
 goog.require('goog.Uri');
+goog.require('goog.array');
 goog.require('goog.debug.Logger');
+goog.require('goog.events.EventTarget');
+goog.require('goog.json');
+goog.require('goog.net.XhrIo');
+goog.require('goog.object');
+goog.require('goog.structs.Map');
 
 
 /**
  * Caffeine Model
- * 
- * @param {Object} opt_values Values to load model with
- * @param {Object.<{type: caffeine.Model.FieldType, required: boolean}>=} 
+ *
+ * @param {Object} opt_values Values to load model with.
+ * @param {Object.<{type: caffeine.Model.FieldType, required: boolean}>=}
  *           opt_fields The fields definition
  * @constructor
  * @extends {goog.events.EventTarget}
@@ -52,7 +52,7 @@ caffeine.Model = function(values, opt_fields) {
    */
   this.fields_ = new goog.structs.Map();
   this.addField('pk', { defaultValue: null, required: false });
-  
+
   /**
    * @type {goog.structs.Map}
    * @private
@@ -63,7 +63,7 @@ caffeine.Model = function(values, opt_fields) {
    * @type {Array.<Object>}
    */
   this.errors_ = [];
-  
+
   /**
    * @type {boolean}
    * @private
@@ -84,14 +84,14 @@ caffeine.Model = function(values, opt_fields) {
 
   // When the XHR completes, call our onSuccess
   // TODO(joe): Error handling?
-  goog.events.listen(this.xhr_, goog.net.EventType.COMPLETE, 
+  goog.events.listen(this.xhr_, goog.net.EventType.COMPLETE,
                      this.onSuccess_, this);
-  
+
   var buildSchema = function(options, name, obj) {
     this.addField(name, options);
   };
   goog.object.map(opt_fields || this.fields, buildSchema, this);
-  
+
   this.setAll(values);
 };
 goog.inherits(caffeine.Model, goog.events.EventTarget);
@@ -108,9 +108,9 @@ caffeine.Model.Error = {
 
 /**
  * Validate a value against a field name
- * @param {string} name Field name 
- * @param {*} value Field value
- * @return {boolean} True if valid
+ * @param {string} name Field name.
+ * @param {*} value Field value.
+ * @return {boolean} True if valid.
  */
 caffeine.Model.prototype.validateField_ = function(name, value) {
   if (!this.fields_.containsKey(name)) {
@@ -118,7 +118,7 @@ caffeine.Model.prototype.validateField_ = function(name, value) {
   }
   var field = this.fields_.get(name);
   var validate = function(validator, i, arr) {
-    if(!goog.isFunction(validator)){
+    if (!goog.isFunction(validator)) {
       throw Error(caffeine.Model.Error.INVALID_VALIDATOR);
     }
     var validationResult = validator.call(this, value);
@@ -141,7 +141,7 @@ caffeine.Model.prototype.serialize = function() {
 
 /**
  * Get URL for Resource
- * @return {goog.Uri} the uri
+ * @return {goog.Uri} the uri.
  */
 caffeine.Model.prototype.getUrl = function() {
   var url = new goog.Uri(this.resource);
@@ -151,8 +151,8 @@ caffeine.Model.prototype.getUrl = function() {
 };
 
 /**
- * @param {string} name Field name
- * @param {Object=} opt_options Field options
+ * @param {string} name Field name.
+ * @param {Object=} opt_options Field options.
  */
 caffeine.Model.prototype.addField = function(name, opt_options) {
   var options = {
@@ -167,7 +167,7 @@ caffeine.Model.prototype.addField = function(name, opt_options) {
 };
 
 /**
- * @param {Array} values Li
+ * @param {Array} values Li.
  */
 caffeine.Model.prototype.setAll = function(values) {
   var loadData = function(val, key, obj) {
@@ -178,8 +178,8 @@ caffeine.Model.prototype.setAll = function(values) {
 
 /**
  * Set value for a specified field for a model
- * @param {string} name field name
- * @param {string|Object|Array} value Value to store
+ * @param {string} name field name.
+ * @param {string|Object|Array} value Value to store.
  * @param {boolean} opt_sync Call sync?
  */
 caffeine.Model.prototype.set = function(name, value, opt_sync) {
@@ -197,21 +197,21 @@ caffeine.Model.prototype.set = function(name, value, opt_sync) {
 
 /**
  * Get a the value for a specified field from Model
- * @param {string} name Field
- * @param {string} opt_value Default value if key is undefined
+ * @param {string} name Field.
+ * @param {string} opt_value Default value if key is undefined.
  */
 caffeine.Model.prototype.get = function(name, opt_value) {
   if (!this.fields_.containsKey(name)) {
     throw Error(caffeine.Model.Error.NO_FIELD);
   }
   // default value is never stored in attributes
-  return this.attributes_.get(name, opt_value) || 
+  return this.attributes_.get(name, opt_value) ||
     (this.fields_.get(name)).defaultValue;
 };
 
 /**
  * Does this object exist on the server?
- * @return {boolean} Whether or not object has been persisted
+ * @return {boolean} Whether or not object has been persisted.
  */
 caffeine.Model.prototype.isNew = function() {
   return goog.isNull(this.get('pk'));
@@ -236,7 +236,7 @@ caffeine.Model.Action = {
 
 /**
  * When XHR is successful
- * @param {goog.events.EventTarget} e 
+ * @param {goog.events.EventTarget} e
  */
 caffeine.Model.prototype.onSuccess_ = function(e) {
   var xhr = e.target;
@@ -246,9 +246,9 @@ caffeine.Model.prototype.onSuccess_ = function(e) {
 
 /**
  * Take specified action on resource
- * @param {caffeine.Model.ResourceAction} action The resource action
- * @param {caffeine.Model.Action} action Action to perform 
- * @param {Function} callback Callback to call
+ * @param {caffeine.Model.ResourceAction} action The resource action.
+ * @param {caffeine.Model.Action} action Action to perform.
+ * @param {Function} callback Callback to call.
  */
 caffeine.Model.prototype.sync_ = function(action) {
   var headers = goog.structs.Map({
@@ -256,7 +256,7 @@ caffeine.Model.prototype.sync_ = function(action) {
     'X-CSRFToken': goog.net.cookies.get('csrftoken') || '',
     'X-HTTP-Method-Override': action.httpOverride || action.httpVerb
   });
-  this.xhr_.send(this.getUrl().toString(), action.httpVerb, this.serialize(), 
+  this.xhr_.send(this.getUrl().toString(), action.httpVerb, this.serialize(),
                  headers);
 };
 
@@ -270,8 +270,8 @@ caffeine.Model.prototype.fetch = function() {
 /**
  * Create or Update resource on server
  */
-caffeine.Model.prototype.save = function(){
-  var action = this.isNew() ? 
+caffeine.Model.prototype.save = function() {
+  var action = this.isNew() ?
     caffeine.Model.Action.Create :
     caffeine.Model.Action.Update;
   this.sync_(action);
@@ -284,5 +284,5 @@ caffeine.Model.prototype.destroy = function() {
   this.sync_(caffeine.Model.Action.Delete);
 };
 
-caffeine.Model.prototype.logger_ = 
+caffeine.Model.prototype.logger_ =
   goog.debug.Logger.getLogger('caffeine.Model');

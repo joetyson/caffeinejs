@@ -13,29 +13,29 @@
 // limitations under the License.
 
 /**
- * @fileoverview Simple LabelInput that fades out on focus
- */ 
+ * @fileoverview Simple LabelInput that fades out on focus.
+ */
 
 goog.provide('caffeine.ui.LabelInput');
 
-goog.require('goog.dom');
 goog.require('goog.Timer');
-goog.require('goog.events');
+goog.require('goog.dom');
 goog.require('goog.dom.classes');
+goog.require('goog.events');
 goog.require('goog.ui.Component');
 
 
 /**
- * @param {string=} opt_label Label
- * @param {boolean=} opt_focus focus after load
- * @param {goog.dom.DomHelper=} opt_domHelper DOMHelper
- * 
+ * @param {string=} opt_label Label.
+ * @param {boolean=} opt_focus focus after load.
+ * @param {goog.dom.DomHelper=} opt_domHelper DOMHelper.
+ *
  * @constructor
  * @extends {goog.ui.Component}
  */
 caffeine.ui.LabelInput = function(opt_label, opt_focus, opt_domHelper) {
   goog.ui.Component.call(this, opt_domHelper);
-  this.label_ = opt_label || "";
+  this.label_ = opt_label || '';
   this.focus_ = opt_focus;
 };
 goog.inherits(caffeine.ui.LabelInput, goog.ui.Component);
@@ -86,7 +86,7 @@ caffeine.ui.LabelInput.prototype.attachEvents_ = function() {
   var eh = new goog.events.EventHandler(this);
   eh.listen(this.getElement(), goog.events.EventType.FOCUS, this.handleFocus_);
   eh.listen(this.getElement(), goog.events.EventType.BLUR, this.handleBlur_);
-  eh.listen(this.getElement(), goog.events.EventType.KEYDOWN, this.handleKey_);  
+  eh.listen(this.getElement(), goog.events.EventType.KEYDOWN, this.handleKey_);
   this.eh_ = eh;
 };
 
@@ -104,19 +104,19 @@ caffeine.ui.LabelInput.prototype.detatchEvents_ = function() {
 /**
  * The CSS Class name to add to input when textfield is in blur
  */
-caffeine.ui.LabelInput.prototype.BLUR_CLASS_NAME = 
+caffeine.ui.LabelInput.prototype.BLUR_CLASS_NAME =
   goog.getCssName('label-input-blur');
 
 /**
  * The CSS Class name to add to input when textfield is in focus
  */
-caffeine.ui.LabelInput.prototype.FOCUS_CLASS_NAME = 
+caffeine.ui.LabelInput.prototype.FOCUS_CLASS_NAME =
   goog.getCssName('label-input-focus');
 
 
 /**
  * Handler for the focus event
- * @param {goog.events.Event} e The event object passed to handler
+ * @param {goog.events.Event} e The event object passed to handler.
  * @private
  */
 caffeine.ui.LabelInput.prototype.handleFocus_ = function(e) {
@@ -126,7 +126,7 @@ caffeine.ui.LabelInput.prototype.handleFocus_ = function(e) {
 
 /**
  * Handler for the blur event
- * @param {goog.events.Event} e The event object passed to handler
+ * @param {goog.events.Event} e The event object passed to handler.
  * @private
  */
 caffeine.ui.LabelInput.prototype.handleBlur_ = function(e) {
@@ -136,12 +136,12 @@ caffeine.ui.LabelInput.prototype.handleBlur_ = function(e) {
 
 /**
  * Handler for the key event
- * @param {goog.events.Event} e The event object passed to handler
+ * @param {goog.events.Event} e The event object passed to handler.
  * @private
  */
 caffeine.ui.LabelInput.prototype.handleKey_ = function(e) {
   goog.dom.classes.remove(this.getElement(), this.FOCUS_CLASS_NAME);
-  if (!this.hasChanged()){
+  if (!this.hasChanged()) {
     // TODO(jtyson): Use a <label> instead of using the input value
     this.getElement().value = '';
   }
@@ -162,7 +162,7 @@ caffeine.ui.LabelInput.prototype.hasChanged = function() {
 caffeine.ui.LabelInput.prototype.check_ = function() {
   if (!this.hasChanged()) {
     if (this.hasFocus_) {
-      goog.dom.classes.addRemove(this.getElement(), 
+      goog.dom.classes.addRemove(this.getElement(),
                                  this.BLUR_CLASS_NAME,
                                  this.FOCUS_CLASS_NAME);
       var moveCursor = function() {
@@ -186,7 +186,7 @@ caffeine.ui.LabelInput.prototype.check_ = function() {
  */
 caffeine.ui.LabelInput.prototype.restoreLabel_ = function() {
   if (this.getElement() && !this.hasChanged() && !this.hasFocus_) {
-    if(this.focus_) {
+    if (this.focus_) {
       this.getElement().focus();
       this.focus_ = false;
     }

@@ -13,7 +13,7 @@
 // limitations under the License.
 
 /**
- * @fileoverview Bootstrap for the CaffeineJS Library
+ * @fileoverview Bootstrap for the CaffeineJS Library.
  */
 
 /**
@@ -25,12 +25,12 @@ var caffeine = caffeine || {};
 
 /**
  * @define {string} This is a string that gets stripped from the json
- * response from the server before processing. 
+ * response from the server before processing.
  */
 caffeine.XSSI_PREFIX = 'while(1);/**';
 
 /**
  * @define {string} CSRF cookie to use when setting a csrf token.
- */ 
+ */
 caffeine.CSRF_COOKIE = 'csrftoken';
 

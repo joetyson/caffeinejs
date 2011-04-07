@@ -13,8 +13,8 @@
 // limitations under the License.
 
 /**
- * @fileoverview Provides support for having sets of models
- */ 
+ * @fileoverview Provides support for having sets of models.
+ */
 
 goog.provide('caffeine.Model.Set');
 
@@ -33,7 +33,7 @@ goog.inherits(caffeine.Model.Set, goog.structs.Set);
 
 /**
  * Add a model object to this set
- * @param {caffeine.Model} modelObj Model object to add to set
+ * @param {caffeine.Model} modelObj Model object to add to set.
  */
 caffeine.Model.Set.prototype.add = function(modelObj) {
   if (!(modelObj instanceof this.model_)) {
@@ -44,8 +44,8 @@ caffeine.Model.Set.prototype.add = function(modelObj) {
 
 /**
  * Create a new model object and append to set
- * @param {Object} values Values to populate model with
- * @returns {caffeine.Model}
+ * @param {Object} values Values to populate model with.
+ * @return {caffeine.Model}
  */
 caffeine.Model.Set.prototype.create = function(values) {
   var obj = new this.model_(values);
@@ -54,14 +54,14 @@ caffeine.Model.Set.prototype.create = function(values) {
 };
 
 caffeine.Model.Set.prototype.all = function() {
-  
+
 };
 
 /**
  * Take specified action on resource
- * @param {caffeine.Model.ResourceAction} action The resource action
- * @param {caffeine.Model.Action} action Action to perform 
- * @param {Function} callback Callback to call
+ * @param {caffeine.Model.ResourceAction} action The resource action.
+ * @param {caffeine.Model.Action} action Action to perform.
+ * @param {Function} callback Callback to call.
  */
 caffeine.Model.prototype.sync_ = function(action) {
   var headers = goog.structs.Map({
@@ -69,6 +69,6 @@ caffeine.Model.prototype.sync_ = function(action) {
     'X-CSRFToken': goog.net.cookies.get('csrftoken') || '',
     'X-HTTP-Method-Override': action.httpOverride || action.httpVerb
   });
-  this.xhr_.send(this.getUrl().toString(), action.httpVerb, this.serialize(), 
+  this.xhr_.send(this.getUrl().toString(), action.httpVerb, this.serialize(),
                  headers);
 };
